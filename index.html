@@ -317,8 +317,8 @@ nav.scrolled { background: rgba(6, 8, 15, 0.95); }
 }
 .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
 
-/* Dashboard Mockup */
-.dashboard-mockup {
+/* AI Feed — Live Message Handler */
+.ai-feed-wrapper {
   position: relative;
   width: 100%;
   animation: mock-float 6s ease-in-out infinite;
@@ -327,66 +327,282 @@ nav.scrolled { background: rgba(6, 8, 15, 0.95); }
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-12px); }
 }
-.mock-window {
+.ai-feed {
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: 16px;
   overflow: hidden;
   box-shadow: 0 24px 80px rgba(0, 0, 0, 0.5), 0 0 60px rgba(0, 212, 255, 0.08);
 }
-.mock-titlebar {
+
+/* Top bar */
+.ai-feed-topbar {
   display: flex;
   align-items: center;
-  gap: 6px;
+  justify-content: space-between;
   padding: .75rem 1rem;
   background: rgba(0, 0, 0, 0.3);
   border-bottom: 1px solid var(--border);
 }
-.mock-dot { width: 10px; height: 10px; border-radius: 50%; }
-.mock-dot:nth-child(1) { background: #ff5f57; }
-.mock-dot:nth-child(2) { background: #febc2e; }
-.mock-dot:nth-child(3) { background: #28c840; }
-.mock-body { padding: 1.25rem; display: flex; flex-direction: column; gap: 1rem; }
-.mock-row { display: flex; gap: .75rem; }
-.mock-stat {
-  flex: 1;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: .875rem;
-}
-.mock-stat-label { font-size: .65rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: .08em; margin-bottom: .25rem; }
-.mock-stat-value { font-size: 1.25rem; font-weight: 800; }
-.mock-stat-value.cyan { color: var(--accent); }
-.mock-stat-value.orange { color: var(--accent-warm); }
-.mock-stat-value.green { color: #28c840; }
-.mock-activity {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: .875rem;
-}
-.mock-activity-title { font-size: .7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: .08em; margin-bottom: .75rem; }
-.mock-activity-item {
+.ai-feed-brand {
   display: flex;
   align-items: center;
-  gap: .625rem;
-  padding: .5rem 0;
+  gap: .5rem;
+  font-size: .8rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+.ai-pulse {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #22c55e;
+  animation: ai-pulse 2s ease-in-out infinite;
+}
+@keyframes ai-pulse {
+  0%, 100% { opacity: 1; box-shadow: 0 0 4px #22c55e; }
+  50% { opacity: .5; box-shadow: 0 0 12px #22c55e, 0 0 24px rgba(34, 197, 94, 0.3); }
+}
+.ai-feed-status {
+  font-size: .65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: #22c55e;
+  padding: 3px 10px;
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.2);
+  border-radius: 100px;
+}
+
+/* Channel badges */
+.ai-feed-channels {
+  display: flex;
+  gap: .5rem;
+  padding: .75rem 1rem;
   border-bottom: 1px solid var(--border);
-  font-size: .75rem;
+}
+.ai-channel {
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+  padding: 4px 10px;
+  border-radius: 100px;
+  font-size: .7rem;
+  font-weight: 500;
   color: var(--text-muted);
 }
-.mock-activity-item:last-child { border-bottom: none; }
-.mock-activity-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
-.mock-activity-dot.live { background: var(--accent); box-shadow: 0 0 6px var(--accent); }
-.mock-activity-dot.warm { background: var(--accent-warm); box-shadow: 0 0 6px var(--accent-warm); }
-.mock-activity-dot.done { background: #28c840; box-shadow: 0 0 6px #28c840; }
-.mock-bar-chart { display: flex; align-items: flex-end; gap: 4px; height: 48px; }
-.mock-bar {
+.ai-channel strong { font-weight: 800; }
+.ai-channel svg { flex-shrink: 0; }
+.ai-channel-calls {
+  background: rgba(34, 197, 94, 0.08);
+  border: 1px solid rgba(34, 197, 94, 0.15);
+  color: #22c55e;
+}
+.ai-channel-texts {
+  background: rgba(255, 107, 53, 0.08);
+  border: 1px solid rgba(255, 107, 53, 0.15);
+  color: var(--accent-warm);
+}
+.ai-channel-emails {
+  background: rgba(0, 212, 255, 0.08);
+  border: 1px solid rgba(0, 212, 255, 0.15);
+  color: var(--accent);
+}
+
+/* Message stream */
+.ai-feed-stream {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+  padding: 1rem;
+}
+.feed-card {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  padding: .625rem .75rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  transition: border-color .3s;
+}
+.feed-card-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+}
+.feed-icon-call {
+  background: rgba(34, 197, 94, 0.12);
+  color: #22c55e;
+}
+.feed-icon-text {
+  background: rgba(255, 107, 53, 0.12);
+  color: var(--accent-warm);
+}
+.feed-icon-email {
+  background: rgba(0, 212, 255, 0.12);
+  color: var(--accent);
+}
+.feed-card-body {
   flex: 1;
-  border-radius: 3px 3px 0 0;
-  min-width: 8px;
-  transition: height .3s;
+  min-width: 0;
+  position: relative;
+  height: 1.2em;
+  overflow: hidden;
+}
+.feed-card-label,
+.feed-card-result {
+  display: block;
+  font-size: .78rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+.feed-card-label {
+  font-weight: 600;
+  color: var(--text-primary);
+  animation: label-cycle 15s ease-in-out infinite;
+}
+.feed-card-result {
+  font-weight: 600;
+  color: #22c55e;
+  animation: result-cycle 15s ease-in-out infinite;
+}
+
+/* Stagger card animations */
+.feed-card-2 .feed-card-label,
+.feed-card-2 .feed-card-result { animation-delay: 3s; }
+.feed-card-3 .feed-card-label,
+.feed-card-3 .feed-card-result { animation-delay: 6s; }
+.feed-card-4 .feed-card-label,
+.feed-card-4 .feed-card-result { animation-delay: 9s; }
+.feed-card-5 .feed-card-label,
+.feed-card-5 .feed-card-result { animation-delay: 12s; }
+
+@keyframes label-cycle {
+  0%, 25% { opacity: 1; transform: translateY(0); }
+  30%, 35% { opacity: 0; transform: translateY(-6px); }
+  90%, 95% { opacity: 0; transform: translateY(6px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+@keyframes result-cycle {
+  0%, 25% { opacity: 0; transform: translateY(6px); }
+  35%, 85% { opacity: 1; transform: translateY(0); }
+  95%, 100% { opacity: 0; transform: translateY(-6px); }
+}
+
+/* Icon state — green check overlay when result is showing */
+.feed-card-icon::after {
+  content: '✓';
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(34, 197, 94, 0.2);
+  border-radius: 50%;
+  font-size: .65rem;
+  font-weight: 900;
+  color: #22c55e;
+  animation: icon-check 15s ease-in-out infinite;
+}
+.feed-card-2 .feed-card-icon::after { animation-delay: 3s; }
+.feed-card-3 .feed-card-icon::after { animation-delay: 6s; }
+.feed-card-4 .feed-card-icon::after { animation-delay: 9s; }
+.feed-card-5 .feed-card-icon::after { animation-delay: 12s; }
+
+@keyframes icon-check {
+  0%, 28% { opacity: 0; }
+  35%, 85% { opacity: 1; }
+  92%, 100% { opacity: 0; }
+}
+
+/* Footer bar */
+.ai-feed-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .75rem;
+  padding: .625rem 1rem;
+  border-top: 1px solid var(--border);
+  font-size: .7rem;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+.feed-dot {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--text-muted);
+  opacity: .4;
+}
+.feed-zero { color: #22c55e; }
+
+/* Floating notification bubbles */
+.float-notif {
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  padding: 8px 14px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  font-size: .72rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+.float-notif svg { flex-shrink: 0; }
+.float-notif-1 {
+  right: -30px;
+  top: 18%;
+  animation: notif-fly-1 15s ease-in-out infinite;
+}
+.float-notif-2 {
+  right: -20px;
+  top: 48%;
+  animation: notif-fly-2 15s ease-in-out 5s infinite;
+}
+.float-notif-3 {
+  right: -25px;
+  top: 75%;
+  animation: notif-fly-3 15s ease-in-out 10s infinite;
+}
+@keyframes notif-fly-1 {
+  0% { opacity: 0; transform: translateX(40px); }
+  8% { opacity: 1; transform: translateX(0); }
+  25% { opacity: 1; transform: translate(-15px, 5px); }
+  35% { opacity: 0; transform: translate(-35px, 8px) scale(0.85); }
+  36%, 100% { opacity: 0; transform: translateX(40px); }
+}
+@keyframes notif-fly-2 {
+  0% { opacity: 0; transform: translateX(30px) translateY(-10px); }
+  8% { opacity: 1; transform: translateX(0) translateY(0); }
+  25% { opacity: 1; transform: translate(-20px, 5px); }
+  35% { opacity: 0; transform: translate(-40px, 10px) scale(0.85); }
+  36%, 100% { opacity: 0; transform: translateX(30px); }
+}
+@keyframes notif-fly-3 {
+  0% { opacity: 0; transform: translateX(35px) translateY(10px); }
+  8% { opacity: 1; transform: translateX(0) translateY(0); }
+  25% { opacity: 1; transform: translate(-18px, -5px); }
+  35% { opacity: 0; transform: translate(-38px, -8px) scale(0.85); }
+  36%, 100% { opacity: 0; transform: translateX(35px); }
 }
 
 /* ── TRUST BAR ── */
@@ -957,7 +1173,8 @@ footer::before {
   .hero p { margin-left: auto; margin-right: auto; }
   .hero-pills { justify-content: center; }
   .hero-actions { justify-content: center; }
-  .dashboard-mockup { max-width: 500px; margin: 0 auto; }
+  .ai-feed-wrapper { max-width: 500px; margin: 0 auto; }
+  .float-notif { display: none; }
   .steps-container::before { display: none; }
   .footer-main { grid-template-columns: 1fr 1fr; }
 }
@@ -981,6 +1198,19 @@ footer::before {
   .hero-actions .btn-secondary { width: 100%; justify-content: center; }
   .stats-grid { grid-template-columns: 1fr; }
   .tool-grid { grid-template-columns: 1fr; }
+  .feed-card-label,
+  .feed-card-result { font-size: .72rem; }
+  .ai-feed-channels { flex-wrap: wrap; }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .ai-feed-wrapper { animation: none; }
+  .ai-pulse { animation: none; }
+  .feed-card-label { animation: none; opacity: 0; }
+  .feed-card-result { animation: none; opacity: 1; position: relative; }
+  .feed-card-icon::after { animation: none; opacity: 1; }
+  .float-notif { display: none; }
 }
 </style>
 </head>
@@ -1039,65 +1269,100 @@ footer::before {
         <a href="#solutions" class="btn-secondary">See How It Works</a>
       </div>
     </div>
-    <div class="dashboard-mockup">
-      <div class="mock-window">
-        <div class="mock-titlebar">
-          <div class="mock-dot"></div>
-          <div class="mock-dot"></div>
-          <div class="mock-dot"></div>
+    <div class="ai-feed-wrapper">
+      <!-- Floating notification bubbles -->
+      <div class="float-notif float-notif-1">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        Incoming Call
+      </div>
+      <div class="float-notif float-notif-2">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--accent-warm)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        New Text Message
+      </div>
+      <div class="float-notif float-notif-3">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        Email Lead
+      </div>
+
+      <!-- Main AI Feed window -->
+      <div class="ai-feed">
+        <div class="ai-feed-topbar">
+          <div class="ai-feed-brand">
+            <span class="ai-pulse"></span>
+            AirSync AI
+          </div>
+          <span class="ai-feed-status">Active</span>
         </div>
-        <div class="mock-body">
-          <div class="mock-row">
-            <div class="mock-stat">
-              <div class="mock-stat-label">New Leads Today</div>
-              <div class="mock-stat-value cyan">14</div>
+
+        <div class="ai-feed-channels">
+          <span class="ai-channel ai-channel-calls">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            Calls <strong>12</strong>
+          </span>
+          <span class="ai-channel ai-channel-texts">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            Texts <strong>8</strong>
+          </span>
+          <span class="ai-channel ai-channel-emails">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            Emails <strong>5</strong>
+          </span>
+        </div>
+
+        <div class="ai-feed-stream">
+          <div class="feed-card feed-card-1">
+            <div class="feed-card-icon feed-icon-call">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
             </div>
-            <div class="mock-stat">
-              <div class="mock-stat-label">Jobs Booked</div>
-              <div class="mock-stat-value orange">8</div>
-            </div>
-            <div class="mock-stat">
-              <div class="mock-stat-label">Revenue</div>
-              <div class="mock-stat-value green">$12,480</div>
-            </div>
-          </div>
-          <div class="mock-activity">
-            <div class="mock-activity-title">Live Activity</div>
-            <div class="mock-activity-item">
-              <div class="mock-activity-dot live"></div>
-              Lead responded — "AC repair, 742 Oak St" — 12s ago
-            </div>
-            <div class="mock-activity-item">
-              <div class="mock-activity-dot warm"></div>
-              Invoice sent — Johnson residence — $2,400
-            </div>
-            <div class="mock-activity-item">
-              <div class="mock-activity-dot done"></div>
-              Review collected — 5 stars — Google
-            </div>
-            <div class="mock-activity-item">
-              <div class="mock-activity-dot live"></div>
-              Appointment confirmed — Tomorrow 9 AM
+            <div class="feed-card-body">
+              <span class="feed-card-label">Missed Call — Sarah J.</span>
+              <span class="feed-card-result">&#10003; Appointment booked — Tue 2pm</span>
             </div>
           </div>
-          <div class="mock-row">
-            <div class="mock-stat" style="flex:2">
-              <div class="mock-stat-label">Weekly Revenue</div>
-              <div class="mock-bar-chart">
-                <div class="mock-bar" style="height:40%;background:var(--accent);opacity:.5"></div>
-                <div class="mock-bar" style="height:55%;background:var(--accent);opacity:.6"></div>
-                <div class="mock-bar" style="height:35%;background:var(--accent);opacity:.5"></div>
-                <div class="mock-bar" style="height:70%;background:var(--accent);opacity:.7"></div>
-                <div class="mock-bar" style="height:85%;background:var(--accent);opacity:.8"></div>
-                <div class="mock-bar" style="height:60%;background:var(--accent);opacity:.7"></div>
-                <div class="mock-bar" style="height:95%;background:linear-gradient(to top,var(--accent),var(--accent-warm))"></div>
-              </div>
+          <div class="feed-card feed-card-2">
+            <div class="feed-card-icon feed-icon-text">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
             </div>
-            <div class="mock-stat">
-              <div class="mock-stat-label">Avg Response</div>
-              <div class="mock-stat-value cyan">18s</div>
+            <div class="feed-card-body">
+              <span class="feed-card-label">New Text — Mike R.</span>
+              <span class="feed-card-result">&#10003; Quote sent — $850 estimate</span>
             </div>
           </div>
+          <div class="feed-card feed-card-3">
+            <div class="feed-card-icon feed-icon-email">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </div>
+            <div class="feed-card-body">
+              <span class="feed-card-label">Email Lead — Johnson Residence</span>
+              <span class="feed-card-result">&#10003; Follow-up scheduled — 9am</span>
+            </div>
+          </div>
+          <div class="feed-card feed-card-4">
+            <div class="feed-card-icon feed-icon-call">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            </div>
+            <div class="feed-card-body">
+              <span class="feed-card-label">After-Hours — 742 Oak Ave</span>
+              <span class="feed-card-result">&#10003; Voicemail transcribed &rarr; text sent</span>
+            </div>
+          </div>
+          <div class="feed-card feed-card-5">
+            <div class="feed-card-icon feed-icon-text">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            </div>
+            <div class="feed-card-body">
+              <span class="feed-card-label">Review Request — Davis Property</span>
+              <span class="feed-card-result">&#10003; 5-star review received</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="ai-feed-footer">
+          <span>23 handled</span>
+          <span class="feed-dot"></span>
+          <span class="feed-zero">0 missed</span>
+          <span class="feed-dot"></span>
+          <span>$14K booked</span>
         </div>
       </div>
     </div>
