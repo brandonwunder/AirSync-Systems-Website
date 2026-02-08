@@ -137,6 +137,21 @@ footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:3r
 .footer-links a{color:var(--text-dim);text-decoration:none;font-size:.8rem;transition:color .3s}
 .footer-links a:hover{color:var(--accent)}
 
+.diff-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem;max-width:1000px;margin:0 auto}
+.diff-card{background:var(--bg-card);border-radius:16px;padding:2.25rem 2rem;border:1px solid var(--border);transition:all .4s}
+.diff-card.negative{border-color:rgba(239,68,68,.15)}
+.diff-card.negative:hover{border-color:rgba(239,68,68,.3);transform:translateY(-3px)}
+.diff-card.positive{border-color:var(--border-accent)}
+.diff-card.positive:hover{border-color:var(--accent);transform:translateY(-3px);box-shadow:0 15px 40px rgba(0,229,160,.08)}
+.diff-card h3{font-family:var(--font-display);font-size:1.15rem;font-weight:600;margin-bottom:1.25rem;display:flex;align-items:center;gap:.6rem}
+.diff-card.negative h3{color:#f87171}
+.diff-card.positive h3{color:var(--accent)}
+.diff-list{list-style:none;display:flex;flex-direction:column;gap:.75rem}
+.diff-list li{display:flex;align-items:flex-start;gap:.6rem;font-size:.9rem;color:var(--text-secondary);line-height:1.6}
+.diff-list li .icon{flex-shrink:0;width:22px;height:22px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;margin-top:2px}
+.diff-card.negative .icon{background:rgba(239,68,68,.12);color:#f87171}
+.diff-card.positive .icon{background:var(--accent-glow);color:var(--accent)}
+
 @media(max-width:900px){
   nav{padding:1rem 1.5rem}
   .nav-links{display:none}
@@ -145,6 +160,7 @@ footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:3r
   .workflow-card.reverse{direction:ltr}
   .footer-inner{flex-direction:column;gap:1rem}
   .testimonials-grid{grid-template-columns:1fr}
+  .diff-grid{grid-template-columns:1fr}
 }
 .reveal{opacity:0;transform:translateY(30px);transition:all .7s cubic-bezier(.22,1,.36,1)}
 .reveal.visible{opacity:1;transform:translateY(0)}
@@ -166,14 +182,14 @@ footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:3r
 
 <section class="hero">
   <div class="hero-glow"></div>
-  <div class="hero-tag">Smart Automations for the Trades</div>
+  <div class="hero-tag">Your AI Automation Partner</div>
   <h1>Fully Booked. Fully Paid.<br><span class="accent-text">Zero Office Work.</span></h1>
   <div class="hero-industries">
     <div class="industry-pill"><span class="pill-icon">🔧</span> Plumbing Companies</div>
     <div class="industry-pill"><span class="pill-icon">🏠</span> Roofing Contractors</div>
     <div class="industry-pill"><span class="pill-icon">❄️</span> HVAC Businesses</div>
   </div>
-  <p>AirSync automates your calls, scheduling, follow-ups, invoicing, and reviews — so you can stop playing receptionist and start stacking jobs.</p>
+  <p>We consult with your business, design custom AI-powered systems around how you actually operate, and run them for you. No software to learn. No dashboards to check. Just results.</p>
   <div class="hero-actions">
     <a href="#automations" class="btn-primary">See What We Automate</a>
     <a href="#contact" class="btn-secondary">Book a Free Audit</a>
@@ -215,39 +231,66 @@ footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:3r
   </div>
 </section>
 
+<section id="differentiator">
+  <div class="section-header reveal">
+    <div class="section-tag">This Isn't Another CRM</div>
+    <h2>You've Tried the Tools. Now Try a Partner.</h2>
+  </div>
+  <div class="diff-grid">
+    <div class="diff-card negative reveal">
+      <h3><span>🔻</span> The Tool Approach</h3>
+      <ul class="diff-list">
+        <li><span class="icon">✗</span> Generic software you have to learn</li>
+        <li><span class="icon">✗</span> One-size-fits-all templates</li>
+        <li><span class="icon">✗</span> You still do all the work — just in a different app</li>
+        <li><span class="icon">✗</span> Another monthly subscription collecting dust</li>
+      </ul>
+    </div>
+    <div class="diff-card positive reveal">
+      <h3><span>⚡</span> The AirSync Approach</h3>
+      <ul class="diff-list">
+        <li><span class="icon">✓</span> A dedicated AI team that learns YOUR business</li>
+        <li><span class="icon">✓</span> Custom-built agentic systems designed around how you operate</li>
+        <li><span class="icon">✓</span> We build it, run it, and optimize it — you focus on jobs</li>
+        <li><span class="icon">✓</span> An ongoing partner that scales with you</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
 <section id="how-it-works">
   <div class="section-header reveal">
-    <div class="section-tag">Zero Tech Skills Required</div>
-    <h2>We Set It Up. You Forget About It.</h2>
-    <p>You tell us how your shop runs. We build the automations. You go back to running jobs.</p>
+    <div class="section-tag">Your Dedicated AI Team</div>
+    <h2>We Learn Your Business. Then We Automate It.</h2>
+    <p>No templates. No generic setup. We dig into how your operation actually runs and build an AI system custom-fit to your workflows.</p>
   </div>
   <div class="steps-grid">
     <div class="step-card reveal">
       <div class="step-number">01</div>
       <div class="step-icon">🔍</div>
-      <h3>We Ride Along (Virtually)</h3>
-      <p>Quick call where we learn how you get leads, book jobs, send invoices, and handle reviews. We find the holes where time and money are leaking out.</p>
+      <h3>We Audit Your Operation</h3>
+      <p>We get on a call and map out your entire operation — how leads come in, how jobs get booked, how payments flow, where the bottlenecks are. We find every spot where AI can save you time and money.</p>
     </div>
     <div class="step-card reveal">
       <div class="step-number">02</div>
       <div class="step-icon">🛠️</div>
-      <h3>We Wire It All Up</h3>
-      <p>We build automations that plug straight into the tools you already use — your CRM, your calendar, your phone system. Nothing to learn. Nothing to install.</p>
+      <h3>We Build Your AI System</h3>
+      <p>We design and build a custom agentic automation system that plugs into the tools you already use — your CRM, calendar, phone, payment processor. Nothing to learn. Nothing to install. It just works.</p>
     </div>
     <div class="step-card reveal">
       <div class="step-number">03</div>
       <div class="step-icon">🚀</div>
-      <h3>We Flip the Switch</h3>
-      <p>Everything goes live, your team gets a 15-minute walkthrough, and we monitor it daily. When your business grows, we tune the system to keep up.</p>
+      <h3>We Run & Optimize It</h3>
+      <p>Your system goes live. We monitor performance, catch issues before you notice them, and continuously tune everything as your business grows. This isn't a one-time install — we're your ongoing AI partner.</p>
     </div>
   </div>
 </section>
 
 <section id="automations" style="background:var(--bg-secondary)">
   <div class="section-header reveal">
-    <div class="section-tag">Your Back Office on Autopilot</div>
-    <h2>Five Systems Running 24/7 So You Don't Have To</h2>
-    <p>Each of these handles a chunk of work that used to eat your nights and weekends. Click the demos to see them in action.</p>
+    <div class="section-tag">What Your AI Partner Handles</div>
+    <h2>We Run These So You Don't Have To</h2>
+    <p>Each of these is a custom-built AI system running behind the scenes 24/7 — designed around how YOUR business operates.</p>
   </div>
   <div class="workflow-section">
 
@@ -464,8 +507,8 @@ footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:3r
 
 <section class="cta-section" id="contact">
   <div class="cta-box reveal">
-    <h2>Your Competitors Are Already Automating. Are You?</h2>
-    <p>Book a free 15-minute call. We'll audit your current setup and show you exactly what's costing you time and money — no pressure, no sales pitch.</p>
+    <h2>Ready for an AI Partner That Actually Gets Your Business?</h2>
+    <p>Book a free 15-minute strategy call. We'll audit your operation and show you exactly where AI can save you time and money — no pressure, no sales pitch.</p>
     <a href="#" class="btn-primary">Book Your Free Audit →</a>
   </div>
 </section>
